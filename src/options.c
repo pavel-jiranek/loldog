@@ -37,10 +37,8 @@ void help(void)
 {
     char const * text =
         "Usage: loldog [OPTION]... [FILE]...\n\n"
-        "Colorize the content of the standard input or files.\n"
-        "If no files are passed as arguments, the standard input is colorized.\n"
-        "Otherwise, the standard input is ignored and the files are colorized\n"
-        "in the order as they come on the command line.\n\n"
+        "Concatenate FILE(s) and/or standard input to standard output...\n"
+        "...and do something funky.\n\n"
         "Options:\n\n"
         "-t TYPE            Type of the coloring. Accepted values are:\n"
         "                      rw  - row-wise coloring (default),\n"
@@ -58,8 +56,10 @@ void help(void)
         "                   Using this option, the bouncing is turned off and when the\n"
         "                   last color of the map is hit, the coloring continues again\n"
         "                   from the first one.\n"
-        "-h                 This help.\n"
-        "-v                 Version info.\n";
+        "-h                 Output this help and exit.\n"
+        "-v                 Output version information and exit.\n\n"
+        "With no FILE or when FILE is -, read standard input\n\n"
+        "Report loldog bugs to pavel.jiranek@gmail.com\n";
 
     printf(text);
 }
