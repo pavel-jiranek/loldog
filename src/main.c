@@ -31,6 +31,7 @@
 
 #include "lol.h"
 #include "options.h"
+#include "linelist.h"
 
 int main(int argc, char ** argv)
 {
@@ -40,7 +41,10 @@ int main(int argc, char ** argv)
     int optind = get_opts(argc, argv, &opts);
     if (optind <= 0) return (optind == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 
-    // Colorize files in arguments.
+    line_list * list = NULL;
+    line_list_create(&list);
+
+    // Take files from arguments.
     if (optind < argc)
     {
         for ( ; optind < argc; optind++)
@@ -53,24 +57,19 @@ int main(int argc, char ** argv)
                 exit(EXIT_FAILURE);
             }
 
-            if (!lol(f, opts))
-            {
-                fprintf(stderr, "Something bad happened!\n");
-                exit(EXIT_FAILURE);
-            }
-
+            line_list_add_file(list, f);
             fclose(f);
         }
     }
-    // Colorize standard input only.
+    // Standard input only.
     else
     {
-        if (!lol(stdin, opts))
-        {
-            fprintf(stderr, "Something bad happened!\n");
-            exit(EXIT_FAILURE);
-        }
+        line_list_add_file(list, stdin);
     }
+
+    lol(list, opts);
+
+    line_list_destroy(&list);
 
     return EXIT_SUCCESS;
 }

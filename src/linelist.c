@@ -30,6 +30,8 @@
 
 #include <stdlib.h>
 
+#include "utils.h"
+
 int line_list_create(line_list ** list)
 {
     *list = malloc(sizeof(line_list));
@@ -83,6 +85,23 @@ int line_list_add(line_list * list, char * line)
     }
 
     list->size++;
+
+    return 1;
+}
+
+int line_list_add_file(line_list * list, FILE * stream)
+{
+    for ( ; ; )
+    {
+        // Get the line from the stream.
+        size_t n;
+        char * line = NULL;
+
+        if (get_line(&line, &n, stream) < 0) break;
+
+        // Append the line to the list or exit.
+        if (!line_list_add(list, line)) return 0;
+    }
 
     return 1;
 }

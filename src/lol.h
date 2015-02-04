@@ -29,12 +29,10 @@
 #ifndef LOL_H_
 #define LOL_H_
 
-#include <stddef.h>
-#include <stdio.h>
-
+#include "linelist.h"
 #include "options.h"
 
 // Colorize the content of the stream.
-int lol(FILE * stream, options opts);
+int lol(line_list * list, options opts);
 
 #endif /* LOL_H_ */

@@ -7,7 +7,7 @@ all: loldog
 clean:
 	rm -rf *.o
 
-linelist.o: linelist.c linelist.h
+linelist.o: linelist.c linelist.h utils.h
 	$(CC) $(CCFLAGS) -o $@ -c linelist.c
 
 utils.o: utils.c utils.h
@@ -16,9 +16,9 @@ utils.o: utils.c utils.h
 options.o: options.c options.h
 	$(CC) $(CCFLAGS) -o $@ -c options.c
 
-lol.o: lol.c lol.h linelist.h utils.h
+lol.o: lol.c lol.h linelist.h utils.h options.h
 
-mail.o: main.c options.h lol.h
+mail.o: main.c options.h lol.h linelist.h
 	$(CC) $(CCFLAGS) -o $@ -c main.c
 
 loldog: main.o utils.o linelist.o options.o lol.o

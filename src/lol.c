@@ -28,7 +28,11 @@
 
 #include "lol.h"
 
+#include <stddef.h>
+#include <stdio.h>
+
 #include "linelist.h"
+#include "options.h"
 #include "utils.h"
 
 // Color schemes.
@@ -91,24 +95,8 @@ size_t get_num_colors(size_t size, int bounce)
 }
 
 // Row-wise scaled LOL.
-int lol_rws(FILE * stream, int const * colors, size_t num_colors, int bounce)
+int lol_rws(line_list * list, int const * colors, size_t num_colors, int bounce)
 {
-    // Create the line list.
-    line_list * list;
-    if (!line_list_create(&list)) return 0;
-
-    for ( ; ; )
-    {
-        // Get the line from the stream.
-        size_t n;
-        char * line = NULL;
-
-        if (get_line(&line, &n, stream) < 0) break;
-
-        // Append the line to the list or exit.
-        if (!line_list_add(list, line)) return 0;
-    }
-
     int i = 0;
     line_list_node * node = list->first;
     for ( ; node != NULL ; node = node->next, i++)
@@ -117,47 +105,33 @@ int lol_rws(FILE * stream, int const * colors, size_t num_colors, int bounce)
         int color = get_color_index(j, num_colors, bounce);
         fprintf(stdout, "\e[38;5;%dm%s\e[0m", colors[color], node->line);
     }
-
-    line_list_destroy(&list);
-
     return 1;
 }
 
 // Row-wise LOL.
-int lol_rw(FILE * stream, int const * colors, size_t num_colors, int rinc, int bounce)
+int lol_rw(line_list * list, int const * colors, size_t num_colors, int rinc, int bounce)
 {
     int i = 0, k = 0;
-
-    size_t n;
-    char * line = NULL;
-
-    for ( ; ; i++)
+    line_list_node * node = list->first;
+    for ( ; node != NULL ; node = node->next, i++)
     {
-        if (get_line(&line, &n, stream) < 0) break;
-
         int color = get_color_index(k, num_colors, bounce);
-        fprintf(stdout, "\e[38;5;%dm%s\e[0m", colors[color], line);
+        fprintf(stdout, "\e[38;5;%dm%s\e[0m", colors[color], node->line);
 
         if (rinc && i % rinc == rinc - 1) k++;
     }
-
     return 1;
 }
 
 // Diagonal LOL.
-int lol_dg(FILE * stream, int const * colors, size_t num_colors, int rinc, int cinc, int bounce)
+int lol_dg(line_list * list, int const * colors, size_t num_colors, int rinc, int cinc, int bounce)
 {
     int i = 0, k = 0;
-
-    size_t n;
-    char * line = NULL;
-
-    for ( ; ; i++)
+    line_list_node * node = list->first;
+    for ( ; node != NULL ; node = node->next, i++)
     {
-        if (get_line(&line, &n, stream) < 0) break;
-
         int j = 0;
-        char * c = line;
+        char * c = node->line;
 
         for ( ; *c; c++, j++)
         {
@@ -172,14 +146,12 @@ int lol_dg(FILE * stream, int const * colors, size_t num_colors, int rinc, int c
 
         if (rinc && i % rinc == rinc - 1) ++k;
     }
-
     fprintf(stdout, "\e[0m");
-
     return 1;
 }
 
 // Main LOL-stuff.
-int lol(FILE * stream, options opts)
+int lol(line_list * list, options opts)
 {
     int * colors = NULL;
     size_t num_colors = 0;
@@ -214,13 +186,13 @@ int lol(FILE * stream, options opts)
     switch (opts.lt)
     {
         case LT_RW:
-            ret = lol_rw(stream, colors, num_colors, opts.rinc, opts.bounce);
+            ret = lol_rw (list, colors, num_colors, opts.rinc, opts.bounce);
             break;
         case LT_RWS:
-            ret = lol_rws(stream, colors, num_colors, opts.bounce);
+            ret = lol_rws(list, colors, num_colors, opts.bounce);
             break;
         case LT_DG:
-            ret = lol_dg(stream, colors, num_colors, opts.rinc, opts.cinc, opts.bounce);
+            ret = lol_dg (list, colors, num_colors, opts.rinc, opts.cinc, opts.bounce);
             break;
     }
 

@@ -30,6 +30,7 @@
 #define LINELIST_H_
 
 #include <stddef.h>
+#include <stdio.h>
 
 // Node of the line list.
 struct line_list_node_struct
@@ -66,6 +67,9 @@ int line_list_destroy(line_list ** list);
 // The function adds a line to the list.
 // The line is *not* copied but only grabs the pointer!
 int line_list_add(line_list * list, char * line);
+
+// Add stream to the line list.
+int line_list_add_file(line_list * list, FILE * stream);
 
 // All functions return 1 on success and 0 on failure.
 
