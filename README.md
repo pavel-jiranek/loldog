@@ -47,10 +47,5 @@ Type
 loldog -h
 ```
 
-TODO
-----
-
-- Moar funky ways to colorize the output.
-- Moar options...
-- Sell it for a big pile of money.
+**Enjoy!**
 
