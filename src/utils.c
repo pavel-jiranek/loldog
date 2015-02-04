@@ -28,9 +28,11 @@
 
 #include "utils.h"
 
+#include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 ssize_t get_line(char ** line, size_t * n, FILE * stream)
 {

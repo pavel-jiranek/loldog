@@ -33,7 +33,6 @@
 
 #include "linelist.h"
 #include "options.h"
-#include "utils.h"
 
 // Color schemes.
 

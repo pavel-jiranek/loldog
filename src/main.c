@@ -28,10 +28,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#include "linelist.h"
 #include "lol.h"
 #include "options.h"
-#include "linelist.h"
 
 int main(int argc, char ** argv)
 {
