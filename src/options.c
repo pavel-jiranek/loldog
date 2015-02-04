@@ -61,7 +61,7 @@ void help(void)
         "With no FILE or when FILE is -, read standard input\n\n"
         "Report loldog bugs to pavel.jiranek@gmail.com\n";
 
-    printf(text);
+    printf("%s", text);
 }
 
 void version()
@@ -79,7 +79,7 @@ void version()
         "Copyright (C) 2015 Pavel Jiranek, <pavel.jiranek@gmail.com>\n"
         "The MIT License <http://opensource.org/licenses/MIT>\n";
 
-    printf(text);
+    printf("%s", text);
 }
 
 int get_opts(int argc, char ** argv, options * opts)
