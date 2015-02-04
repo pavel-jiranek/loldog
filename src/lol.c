@@ -97,13 +97,14 @@ size_t get_num_colors(size_t size, int bounce)
 // Row-wise scaled LOL.
 int lol_rws(line_list * list, int const * colors, size_t num_colors, int bounce)
 {
-    int i = 0;
+    size_t num_all_colors = get_num_colors(num_colors, bounce);
+    int i_row = 0;
     line_list_node * node = list->first;
-    for ( ; node != NULL ; node = node->next, i++)
+    for ( ; node != NULL ; node = node->next, i_row++)
     {
-        int j = (i * get_num_colors(num_colors, bounce)) / list->size;
-        int color = get_color_index(j, num_colors, bounce);
-        fprintf(stdout, "\e[38;5;%dm%s\e[0m", colors[color], node->line);
+        int row_iter = (i_row * num_all_colors) / list->size;
+        int i_color = get_color_index(row_iter, num_colors, bounce);
+        fprintf(stdout, "\e[38;5;%dm%s\e[0m\n", colors[i_color], node->line);
     }
     return 1;
 }
@@ -111,14 +112,14 @@ int lol_rws(line_list * list, int const * colors, size_t num_colors, int bounce)
 // Row-wise LOL.
 int lol_rw(line_list * list, int const * colors, size_t num_colors, int rinc, int bounce)
 {
-    int i = 0, k = 0;
+    int i_row = 0, row_iter = 0;
     line_list_node * node = list->first;
-    for ( ; node != NULL ; node = node->next, i++)
+    for ( ; node != NULL ; node = node->next, i_row++)
     {
-        int color = get_color_index(k, num_colors, bounce);
-        fprintf(stdout, "\e[38;5;%dm%s\e[0m", colors[color], node->line);
+        int i_color = get_color_index(row_iter, num_colors, bounce);
+        fprintf(stdout, "\e[38;5;%dm%s\e[0m\n", colors[i_color], node->line);
 
-        if (rinc && i % rinc == rinc - 1) k++;
+        if (rinc && (i_row % rinc == rinc - 1)) row_iter++;
     }
     return 1;
 }
@@ -126,27 +127,27 @@ int lol_rw(line_list * list, int const * colors, size_t num_colors, int rinc, in
 // Diagonal LOL.
 int lol_dg(line_list * list, int const * colors, size_t num_colors, int rinc, int cinc, int bounce)
 {
-    int i = 0, k = 0;
+    int i_row = 0, row_iter = 0;
     line_list_node * node = list->first;
-    for ( ; node != NULL ; node = node->next, i++)
+    for ( ; node != NULL ; node = node->next, i_row++)
     {
-        int j = 0;
-        char * c = node->line;
+        int col_shift = 0;
+        char * ch = node->line;
 
-        for ( ; *c; c++, j++)
+        for ( ; *ch; ch++, col_shift++)
         {
-            if (j % cinc == 0)
+            if ((cinc && col_shift % cinc == 0) || !cinc)
             {
-                int color = get_color_index(k + j / cinc, num_colors, bounce);
-                fprintf(stdout, "\e[38;5;%dm", colors[color]);
+                int col_iter = row_iter + (cinc ? col_shift / cinc : 0);
+                int i_color = get_color_index(col_iter, num_colors, bounce);
+                fprintf(stdout, "\e[38;5;%dm", colors[i_color]);
             }
-            if (*c == '\n') fprintf(stdout, "\e[0m");
-            fputc(*c, stdout);
+            fputc(*ch, stdout);
         }
+        fprintf(stdout, "\n\e[0m");
 
-        if (rinc && i % rinc == rinc - 1) ++k;
+        if (rinc && (i_row % rinc == rinc - 1)) row_iter++;
     }
-    fprintf(stdout, "\e[0m");
     return 1;
 }
 

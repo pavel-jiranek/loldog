@@ -31,10 +31,14 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 
 ssize_t get_line(char ** line, size_t * n, FILE * stream)
 {
+    // TODO Currently, the tabs are read as tabs. Consequently, if the
+    // TODO color changes with columns, the colors need not to be correct.
+    // TODO We should fix this and replace tabs by some appropriate
+    // TODO number of spaces.
+
     size_t const len_init = 128;
 
     char * buf = *line; // Get the buffer...
@@ -63,6 +67,9 @@ ssize_t get_line(char ** line, size_t * n, FILE * stream)
     {
         ch = fgetc(stream);
 
+        // Ignore control characters except \e and \n.
+        if (iscntrl(ch) && ch != '\e' && ch != '\n') continue;
+
         // On the EOF, assign the output and go away.
         if (ch == EOF)
         {
@@ -86,7 +93,9 @@ ssize_t get_line(char ** line, size_t * n, FILE * stream)
         }
 
         // Copy the character to the buffer and break on CR.
-        if ((*ptr++ = ch) == '\n') break;
+        if (ch == '\n') break;
+
+        *ptr++ = ch;
     }
 
     *ptr = 0;

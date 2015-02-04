@@ -47,6 +47,8 @@
 // The function returns the number of characters read. If an error or EOF
 // is reached, it returns -1.
 //
+// The line does not contain the CR character!
+//
 ssize_t get_line(char ** line, size_t * n, FILE * stream);
 
 #endif /* UTILS_H_ */
