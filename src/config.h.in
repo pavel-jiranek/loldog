@@ -1,0 +1,14 @@
+#ifndef CONFIG_H_
+#define CONFIG_H_
+
+#cmakedefine CURSES_HAVE_CURSES_H
+#cmakedefine CURSES_HAVE_NCURSES_H
+#cmakedefine CURSES_HAVE_NCURSES_NCURSES_H
+#cmakedefine CURSES_HAVE_NCURSES_CURSES_H
+
+#define VERSION_MAJOR ${VERSION_MAJOR}
+#define VERSION_MINOR ${VERSION_MINOR}
+#define VERSION_BUILD ${VERSION_BUILD}
+
+#endif /* CONFIG_H_ */
+
