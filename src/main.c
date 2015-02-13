@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <term.h>
 
 #include "config.h"
 #if defined(CURSES_HAVE_CURSES_H)
