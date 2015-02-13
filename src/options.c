@@ -75,7 +75,7 @@ void version()
          "     /\\____\\\\ \\____/   /\\____\\\\ \\___,_\\\\ \\____/\\ \\____ \\\n"
          "     \\/____/ \\/___/    \\/____/ \\/__,_ / \\/___/  \\/___L\\ \\\n"
          "                                                  /\\____/\n"
-         "     Version 1.0                                  \\/___/\n\n"
+         "     Version 1.1                                  \\/___/\n\n"
         "Copyright (C) 2015 Pavel Jiranek, <pavel.jiranek@gmail.com>\n"
         "The MIT License <http://opensource.org/licenses/MIT>\n";
 
