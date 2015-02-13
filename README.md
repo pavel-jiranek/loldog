@@ -31,7 +31,7 @@ $ make install
 The executable installs by default to the directory `/usr/local/bin`.
 If you wish to change it, configure the project by the following command:
 ```
-$ cmake -DCMAKE_PREFIX=<your_prefix>
+$ cmake -DCMAKE_INSTALL_PREFIX=<your_prefix>
 ```
 replacing `<your_prefix>` by the path where you wish the installation to be
 performed. The executable then installs to the directory `<your_prefix>/bin`.
