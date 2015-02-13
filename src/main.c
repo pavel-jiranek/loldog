@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <curses.h>
 
 #include "linelist.h"
 #include "lol.h"
@@ -41,6 +43,23 @@ int main(int argc, char ** argv)
 
     int optind = get_opts(argc, argv, &opts);
     if (optind <= 0) return (optind == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
+
+    // It does not make sense if the standard output is not a terminal.
+    if (!isatty(fileno(stdout)))
+    {
+        fprintf(stderr, "Output is not a terminal.\n");
+        return EXIT_FAILURE;
+    }
+
+    // We need a 256-color terminal.
+    setupterm(NULL, fileno(stdout), NULL);
+    int ncolors = tigetnum("colors");
+
+    if (ncolors != 256)
+    {
+        fprintf(stderr, "Terminal is not 256-color.\n");
+        return EXIT_FAILURE;
+    }
 
     line_list * list = NULL;
     line_list_create(&list);

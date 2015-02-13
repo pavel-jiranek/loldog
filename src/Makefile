@@ -1,6 +1,6 @@
 CC=cc
 CCFLAGS=-O3
-LDFLAGS=
+LDFLAGS=-lcurses
 
 all: loldog
 
