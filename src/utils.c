@@ -69,9 +69,6 @@ ssize_t get_line(char ** line, size_t * n, FILE * stream)
     {
         ch = fgetc(stream);
 
-        // Ignore control characters except \e and \n.
-        if (iscntrl(ch) && ch != '\e' && ch != '\n') continue;
-
         // On the EOF, assign the output and go away.
         if (ch == EOF)
         {

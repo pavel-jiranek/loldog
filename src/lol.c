@@ -30,8 +30,20 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <curses.h>
 #include <term.h>
+
+#include "config.h"
+#if defined(CURSES_HAVE_CURSES_H)
+#include <curses.h>
+#elif defined(CURSES_HAVE_NCURSES_H)
+#include <ncurses.h>
+#elif defined(CURSES_HAVE_NCURSES_NCURSES_H)
+#include <ncurses/ncurses.h>
+#elif defined(CURSES_HAVE_NCURSES_CURSES_H)
+#include <ncurses/curses.h>
+#else
+#error No CURSES header!
+#endif
 
 #include "linelist.h"
 #include "options.h"

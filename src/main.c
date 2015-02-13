@@ -30,7 +30,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+#include "config.h"
+#if defined(CURSES_HAVE_CURSES_H)
 #include <curses.h>
+#elif defined(CURSES_HAVE_NCURSES_H)
+#include <ncurses.h>
+#elif defined(CURSES_HAVE_NCURSES_NCURSES_H)
+#include <ncurses/ncurses.h>
+#elif defined(CURSES_HAVE_NCURSES_CURSES_H)
+#include <ncurses/curses.h>
+#else
+#error No CURSES header!
+#endif
 
 #include "linelist.h"
 #include "lol.h"
@@ -57,7 +69,7 @@ int main(int argc, char ** argv)
 
     if (ncolors != 256)
     {
-        fprintf(stderr, "Terminal is not 256-color.\n");
+        fprintf(stderr, "Terminal supports only %d colors.\n", ncolors);
         return EXIT_FAILURE;
     }
 

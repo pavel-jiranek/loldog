@@ -26,6 +26,7 @@
  *
  */
 
+#include "config.h"
 #include "options.h"
 
 #include <getopt.h>
@@ -75,11 +76,12 @@ void version()
          "     /\\____\\\\ \\____/   /\\____\\\\ \\___,_\\\\ \\____/\\ \\____ \\\n"
          "     \\/____/ \\/___/    \\/____/ \\/__,_ / \\/___/  \\/___L\\ \\\n"
          "                                                  /\\____/\n"
-         "     Version 1.1                                  \\/___/\n\n"
-        "Copyright (C) 2015 Pavel Jiranek, <pavel.jiranek@gmail.com>\n"
-        "The MIT License <http://opensource.org/licenses/MIT>\n";
+         "                                                  \\/___/\n"
+         "Version %d.%d.%d\n\n"
+         "Copyright (C) 2015 Pavel Jiranek, <pavel.jiranek@gmail.com>\n"
+         "The MIT License <http://opensource.org/licenses/MIT>\n";
 
-    printf("%s", text);
+    printf(text, VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD);
 }
 
 int get_opts(int argc, char ** argv, options * opts)
