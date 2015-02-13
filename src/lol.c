@@ -30,6 +30,8 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include <curses.h>
+#include <term.h>
 
 #include "linelist.h"
 #include "options.h"
@@ -96,6 +98,9 @@ size_t get_num_colors(size_t size, int bounce)
 // Row-wise scaled LOL.
 int lol_rws(line_list * list, int const * colors, size_t num_colors, int bounce)
 {
+    char * setaf = tigetstr("setaf");
+    char * op    = tigetstr("op");
+
     size_t num_all_colors = get_num_colors(num_colors, bounce);
     int i_row = 0;
     line_list_node * node = list->first;
@@ -103,7 +108,9 @@ int lol_rws(line_list * list, int const * colors, size_t num_colors, int bounce)
     {
         int row_iter = (i_row * num_all_colors) / list->size;
         int i_color = get_color_index(row_iter, num_colors, bounce);
-        fprintf(stdout, "\e[38;5;%dm%s\e[0m\n", colors[i_color], node->line);
+        putp(tparm(setaf, colors[i_color]));
+        fprintf(stdout, "%s\n", node->line);
+        putp(op);
     }
     return 1;
 }
@@ -111,12 +118,17 @@ int lol_rws(line_list * list, int const * colors, size_t num_colors, int bounce)
 // Row-wise LOL.
 int lol_rw(line_list * list, int const * colors, size_t num_colors, int rinc, int bounce)
 {
+    char * setaf = tigetstr("setaf");
+    char * op    = tigetstr("op");
+
     int i_row = 0, row_iter = 0;
     line_list_node * node = list->first;
     for ( ; node != NULL ; node = node->next, i_row++)
     {
         int i_color = get_color_index(row_iter, num_colors, bounce);
-        fprintf(stdout, "\e[38;5;%dm%s\e[0m\n", colors[i_color], node->line);
+        putp(tparm(setaf, colors[i_color]));
+        fprintf(stdout, "%s\n", node->line);
+        putp(op);
 
         if (rinc && (i_row % rinc == rinc - 1)) row_iter++;
     }
@@ -126,6 +138,9 @@ int lol_rw(line_list * list, int const * colors, size_t num_colors, int rinc, in
 // Diagonal LOL.
 int lol_dg(line_list * list, int const * colors, size_t num_colors, int rinc, int cinc, int bounce)
 {
+    char * setaf = tigetstr("setaf");
+    char * op    = tigetstr("op");
+
     int i_row = 0, row_iter = 0;
     line_list_node * node = list->first;
     for ( ; node != NULL ; node = node->next, i_row++)
@@ -139,11 +154,12 @@ int lol_dg(line_list * list, int const * colors, size_t num_colors, int rinc, in
             {
                 int col_iter = row_iter + (cinc ? col_shift / cinc : 0);
                 int i_color = get_color_index(col_iter, num_colors, bounce);
-                fprintf(stdout, "\e[38;5;%dm", colors[i_color]);
+                putp(tparm(setaf, colors[i_color]));
             }
             fputc(*ch, stdout);
         }
-        fprintf(stdout, "\n\e[0m");
+        fprintf(stdout, "\n");
+        putp(op);
 
         if (rinc && (i_row % rinc == rinc - 1)) row_iter++;
     }
