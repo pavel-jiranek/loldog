@@ -47,6 +47,7 @@ ssize_t get_line(char ** line, size_t * n, FILE * stream)
             *line = buf;
             *n    = len;
             *ptr  = 0;
+
             if (i > 0) return i;
             else return -1;
         }

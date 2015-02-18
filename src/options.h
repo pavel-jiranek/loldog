@@ -22,11 +22,11 @@ enum CS
 // Options.
 struct options_struct
 {
-        enum LT lt;     // LOL-type.
-        enum CS cs;     // Color scheme.
-        int     rinc;   // Row color increment.
-        int     cinc;   // Column color increment.
-        int     bounce; // Bounce when hit the end of the color scheme.
+    enum LT lt;     // LOL-type.
+    enum CS cs;     // Color scheme.
+    int     rinc;   // Row color increment.
+    int     cinc;   // Column color increment.
+    int     bounce; // Bounce when hit the end of the color scheme.
 };
 
 typedef struct options_struct options;

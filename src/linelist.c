@@ -22,7 +22,7 @@ int line_list_destroy(line_list ** list)
     line_list_node * this = NULL, * next = NULL;
     this = (*list)->first;
 
-    for ( ; this ; this = next)
+    for (; this ; this = next)
     {
         next = this->next;
         free(this->line);
@@ -50,6 +50,7 @@ int line_list_add(line_list * list, char * line)
         list->last->next = node;
         list->last = node;
     }
+
     else
     {
         list->first = node;
@@ -63,7 +64,7 @@ int line_list_add(line_list * list, char * line)
 
 int line_list_add_file(line_list * list, FILE * stream)
 {
-    for ( ; ; )
+    for (; ;)
     {
         // Get the line from the stream.
         size_t n;

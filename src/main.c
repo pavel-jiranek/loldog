@@ -27,6 +27,7 @@ int main(int argc, char ** argv)
     options opts;
 
     int optind = get_opts(argc, argv, &opts);
+
     if (optind <= 0) return (optind == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 
     // It does not make sense if the standard output is not a terminal.
@@ -52,7 +53,7 @@ int main(int argc, char ** argv)
     // Take files from arguments.
     if (optind < argc)
     {
-        for ( ; optind < argc; optind++)
+        for (; optind < argc; optind++)
         {
             FILE * f = strcmp(argv[optind], "-") == 0 ? stdin : fopen(argv[optind], "r");
 
@@ -66,11 +67,10 @@ int main(int argc, char ** argv)
             fclose(f);
         }
     }
+
     // Standard input only.
     else
-    {
         line_list_add_file(list, stdin);
-    }
 
     lol(list, opts);
 

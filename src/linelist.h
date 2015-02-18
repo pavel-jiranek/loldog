@@ -7,8 +7,8 @@
 // Node of the line list.
 struct line_list_node_struct
 {
-        char * line;                            // Content of the line.
-        struct line_list_node_struct * next;    // Pointer to the next node.
+    char * line;                            // Content of the line.
+    struct line_list_node_struct * next;    // Pointer to the next node.
 };
 
 typedef struct line_list_node_struct line_list_node;
@@ -16,9 +16,9 @@ typedef struct line_list_node_struct line_list_node;
 // List of lines.
 struct line_list_struct
 {
-        line_list_node * first;  // Root node.
-        line_list_node * last;   // Pointer to the last node for faster appending.
-        size_t           size;   // Total number of nodes.
+    line_list_node * first;  // Root node.
+    line_list_node * last;   // Pointer to the last node for faster appending.
+    size_t           size;   // Total number of nodes.
 };
 
 typedef struct line_list_struct line_list;
