@@ -30,13 +30,6 @@ int main(int argc, char ** argv)
 
     if (optind <= 0) return (optind == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 
-    // It does not make sense if the standard output is not a terminal.
-    if (!isatty(fileno(stdout)))
-    {
-        fprintf(stderr, "Output is not a terminal.\n");
-        return EXIT_FAILURE;
-    }
-
     // We need a 256-color terminal.
     setupterm(NULL, fileno(stdout), NULL);
     int ncolors = tigetnum("colors");
