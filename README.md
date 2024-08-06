@@ -76,12 +76,3 @@ There is no manual page (yet). The program is easy to use. Type
 $ loldog -h
 ```
 in your terminal.
-
-Comments, suggestions, bug reports
-----------------------------------
-
-Please send me anything of this type to my e-mail
-address: <pavel.jiranek@gmail.com>.
-
-**Enjoy!**
-
